@@ -1,1 +1,283 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Classroom</title><link rel="icon" type="image/png" href="logo.png"><style>body{overflow:hidden;background-color:rgba(30,30,30,0.95);margin:0;padding:0}.screen{width:100%;height:98vh;display:flex;flex-direction:column;position:absolute;border:none}.outputBox{border-radius:50px;height:90%;width:90%;background-color:rgba(13,13,13,1);border:1px solid rgba(48,48,48,1);color:white;text-align:center;display:flex;flex-direction:column;align-items:center;overflow:hidden}.outputHeader{border-bottom:none;width:100%;height:10%;display:flex;align-items:center;justify-content:flex-end;padding-right:10px}.copyButton{height:80%;width:15%;border:none;border-radius:10px;background-color:rgba(48,48,48,1);color:white;display:flex;justify-content:center;align-items:center;transition:width 0.15s ease-in-out,border 0.15s ease-in-out;margin-right:5vw}.copyButton:hover{cursor:pointer;width:18%;border:1px solid white}.outputTextbox{width:90%;height:90%;padding:10px;overflow-y:auto;text-align:left;font-family:Arial,Helvetica,sans-serif;border:none;scrollbar-width:thin;scrollbar-color:rgba(100,100,100,0.7) rgba(30,30,30,0.8)}.half1,.half2{height:50%;width:100%;display:flex;justify-content:center;align-items:center}.quarter3{display:flex;justify-content:center;align-items:center;gap:5%;width:100%}.inputBox{background-color:rgba(48,48,48,1);width:35%;height:8vh;border:none;border-radius:50px;color:white;padding-left:2%;transition:width 0.15s ease-in-out,border 0.15s ease-in-out;box-shadow:5px 5px 15px 0px rgba(0,0,0,0.5)}.inputBox:hover{width:50%;border:1px solid white;transition:width 0.15s ease-in-out,border 0.15s ease-in-out}.half2{border:none;display:flex;flex-direction:column;height:40%}.quarter3{border:none;height:50%;width:100%}.quarter4{border:none;height:50%;width:100%}.header{height:10%;width:100%;border:none;display:flex;flex-direction:row;justify-content:space-between}.header1{width:50%;height:100%;border:none;display:flex;justify-content:left;align-items:center}.header2{width:50%;height:100%;border:none;display:flex;justify-content:right;align-items:center}.header1 p{align-self:center;text-align:center;color:white;font-weight:bold;font-size:300%;font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;margin-left:2vw}.header2 p{align-self:center;text-align:center;color:white;font-weight:bold;font-size:150%;font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;margin-right:2vw}.quarter4 p{color:white;font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;text-align:center;line-height:3vh}.inputBox::placeholder{color:white}</style><script defer>async function fetchAIResponse(){const t=document.getElementById("inputText"),e=document.getElementById("outputTextbox"),n=t.value.trim();if(!n)return;e.innerHTML="Loading your response...";const o="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",a="https://api.openai.com/v1/chat/completions";try{const t=await fetch(a,{method:"POST",headers:{"Content-Type":"application/json",Authorization:`Bearer ${o}`},body:JSON.stringify({model:"gpt-4o-mini",messages:[{role:"system",content:"Try to be clear and concise. Keep the user engaged. Use emojis sparingly, maybe once or twice per message."},{role:"user",content:n}],max_tokens:150})}),n=await t.json(),o=n.choices[0]?.message?.content||"No response";let a=0;e.innerHTML="";function r(){a<o.length&&(e.innerHTML+=o[a],a++,setTimeout(r,10))}r()}catch(t){e.innerHTML="Error fetching response. This may be because of a rate limit, or failure in the API.";console.error("Error:",t)}}function handleKeyPress(t){if(t.key==="Enter"){fetchAIResponse(),document.getElementById("inputText").value=""}}</script></head><body><div class="screen"><div class="header"><div class="header1"><p>Kri GPT</p></div><div class="header2"><p> Version 1.1 </p></div></div><div class="half1"><div class="outputBox"><div class="outputHeader"><button class="copyButton" onclick="navigator.clipboard.writeText(document.getElementById('outputTextbox').innerText)">Copy</button></div><div class="outputTextbox" id="outputTextbox"></div></div></div><div class="half2"><div class="quarter3"><input class="inputBox" type="text" id="inputText" placeholder="Ask me anything..." onkeypress="handleKeyPress(event)"></div><div class="quarter4"><p> <span style="color: rgb(0, 255, 76)"> Other Information: </span> <br> - If the AI's response is cut off, <em>it's intentional.</em> This is a paid service, and long messages cost more. Try to be specific and concise with your questions. <br> - The "Copy" button copies the the AI response to your clipboard. Paste it with <em>Ctrl + V.</em> <br> - Have suggestions? Send them to <em>totallynotkri@gmail.com</em> <br> <em><span style="color: rgb(255, 0, 0)">I am NOT responsible for any misuse of this service</span></em></p></div></div></div></body></html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Classroom</title>
+    <link rel="icon" type="image/png" href="logo.png"> 
+    <style>
+
+        body {
+            overflow: hidden;
+            background-color: rgba(30, 30, 30, 0.95); /* Darker background */
+            margin: 0;
+            padding: 0;
+        }
+
+        .screen {
+            width: 100%;
+            height: 98vh;
+            display: flex;
+            flex-direction: column;
+            position: absolute;
+            border: none;
+        }
+    
+        .outputBox {
+            border-radius: 50px;
+            height: 90%;
+            width: 90%;
+            background-color: rgba(13, 13, 13, 1);
+            border: 1px solid rgba(48, 48, 48, 1);
+            color: white;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        .outputHeader {
+            border-bottom: none;
+            width: 100%;
+            height: 10%;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding-right: 10px;
+        }
+
+        .copyButton {
+            height: 80%;
+            width: 15%;
+            border: none;
+            border-radius: 10px;
+            background-color: rgba(48, 48, 48, 1);
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: width 0.15s ease-in-out, border 0.15s ease-in-out;
+            margin-right: 5vw;
+        }
+
+        .copyButton:hover {
+            cursor: pointer;
+            width: 18%;
+            border: 1px solid white;
+        }
+
+        .outputTextbox {
+            width: 90%;
+            height: 90%;
+            padding: 10px;
+            overflow-y: auto; /* Added scrollbar */
+            text-align: left;
+            font-family: Arial, Helvetica, sans-serif;
+            border: none;
+            scrollbar-width: thin;
+            scrollbar-color: rgba(100, 100, 100, 0.7) rgba(30, 30, 30, 0.8);
+        }
+
+        .half1, .half2 {
+            height: 50%;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .quarter3 {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 5%;
+            width: 100%;
+        }
+
+        .inputBox {
+            background-color: rgba(48, 48, 48, 1);
+            width: 35%;
+            height: 8vh; /* Restored original size */
+            border: none;
+            border-radius: 50px;
+            color: white;
+            padding-left: 2%;
+            transition: width 0.15s ease-in-out, border 0.15s ease-in-out;
+            box-shadow: 5px 5px 15px 0px rgba(0, 0, 0, 0.5);
+        }
+
+        .inputBox:hover {
+            width: 50%;
+            border: 1px solid white;
+            transition: width 0.15s ease-in-out, border 0.15s ease-in-out;
+        }
+
+        .half2 {
+            border: none;
+            display: flex;
+            flex-direction: column;
+            height: 40%;
+        }
+
+        .quarter3 {
+            border: none;
+            height: 50%;
+            width: 100%;
+        }
+
+        .quarter4 {
+            border: none;
+            height: 50%;
+            width: 100%;
+        }
+        
+        .header {
+            height: 10%;
+            width: 100%;
+            border: none;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+        }
+
+        .header1 {
+            width: 50%;
+            height: 100%;
+            border: none;
+            display: flex;
+            justify-content: left;
+            align-items: center;
+        }
+
+        .header2 {
+            width: 50%;
+            height: 100%;
+            border: none;
+            display: flex;
+            justify-content: right;
+            align-items: center;
+        }
+
+        .header1 p {
+            align-self: center;
+            text-align: center;
+            color: white;
+            font-weight: bold;
+            font-size: 300%;
+            font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin-left: 2vw;
+        }
+
+        .header2 p {
+            align-self: center;
+            text-align: center;
+            color: white;
+            font-weight: bold;
+            font-size: 150%;
+            font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin-right: 2vw;
+        }
+
+        .quarter4 p {
+            color: white;
+            font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            text-align: center;
+            line-height: 3vh;
+        }
+
+        .inputBox::placeholder {
+            color: white;
+        }
+
+    </style>
+   <script defer>
+    async function fetchAIResponse() {
+    const inputBox = document.getElementById("inputText");
+    const outputTextbox = document.getElementById("outputTextbox");
+    const userInput = inputBox.value.trim();
+    
+    if (!userInput) return;
+    
+    outputTextbox.innerHTML = "Loading your response..."; // Show loading text
+    
+    const apiKey = "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"; // Replace with your real OpenAI API key
+    const apiUrl = "https://api.openai.com/v1/chat/completions";
+    
+    try {
+        const response = await fetch(apiUrl, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${apiKey}`
+            },
+            body: JSON.stringify({
+                model: "gpt-4o-mini",
+                messages: [
+                    { role: "system", content: "Try to be clear and concise. Keep the user engaged. Use emojis sparingly, maybe once or twice per message." },  // System message to set personality
+                    { role: "user", content: userInput }  // User input
+                ],
+                max_tokens: 150
+            })
+        });
+
+        const data = await response.json();
+        const responseText = data.choices[0]?.message?.content || "No response";
+
+        // Function to simulate typing effect
+        let index = 0;
+        outputTextbox.innerHTML = ''; // Clear the output initially
+        function typeEffect() {
+            if (index < responseText.length) {
+                outputTextbox.innerHTML += responseText[index];
+                index++;
+                setTimeout(typeEffect, 10); // Adjust the delay to make it faster/slower
+            }
+        }
+        typeEffect(); // Start the typing effect
+
+    } catch (error) {
+        outputTextbox.innerHTML = "Error fetching response. This may be because of a rate limit, or failure in the API.";
+        console.error("Error:", error);
+    }
+}
+
+function handleKeyPress(event) {
+    if (event.key === "Enter") {
+        fetchAIResponse();
+        document.getElementById("inputText").value = "";
+    }
+}
+
+</script>
+
+</head>
+<body>
+    <div class="screen">
+        <div class="header">
+            <div class="header1">
+                <p>Kri GPT</p>
+            </div>
+            <div class="header2">
+                <p> Version 1.1 </p>
+            </div>
+        </div>
+        <div class="half1">
+            <div class="outputBox">
+                <div class="outputHeader">
+                    <button class="copyButton" onclick="navigator.clipboard.writeText(document.getElementById('outputTextbox').innerText)">Copy</button>
+                </div>
+                <div class="outputTextbox" id="outputTextbox"></div>
+            </div>
+        </div>
+        <div class="half2">
+            <div class="quarter3">
+                <input class="inputBox" type="text" id="inputText" placeholder="Ask me anything..." onkeypress="handleKeyPress(event)">
+            </div>
+            <div class="quarter4">
+                <p> <span style="color: rgb(0, 255, 76)"> Other Information: </span> <br> - If the AI's response is cut off, <em>it's intentional.</em> This is a paid service, and long messages cost more. Try to be specific and concise with your questions. <br> - The "Copy" button copies the the AI response to your clipboard. Paste it with <em>Ctrl + V.</em> <br> - Have suggestions? Send them to <em>totallynotkri@gmail.com</em> <br> <em><span style="color: rgb(255, 0, 0)">I am NOT responsible for any misuse of this service</span></em></p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
